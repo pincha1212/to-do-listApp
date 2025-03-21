@@ -1,12 +1,7 @@
-/* Mejoras visuales para el contenedor principal */
-.container {
-    --bs-card-spacer-y: 1.5rem;
-    --bs-card-border-radius: 12px;
-  }
-  
-  /* Personalización de la tarjeta */
-  .card {
+/* Mejoras en la tarjeta principal */
+.card {
     border: none;
+    border-radius: 12px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.08);
     transition: box-shadow 0.3s;
   }
@@ -15,83 +10,74 @@
     box-shadow: 0 4px 16px rgba(0,0,0,0.15);
   }
   
-  /* Header de la tarjeta */
-  .card-header {
-    background: linear-gradient(135deg, #2575fc, #6a11cb);
-    border-radius: var(--bs-card-border-radius) var(--bs-card-border-radius) 0 0;
+  /* Header personalizado */
+  .card-header.bg-primary {
+    background: linear-gradient(135deg, #1a73e8, #3c96ff) !important;
+    border-radius: 12px 12px 0 0;
+    padding: 1.5rem;
   }
   
   .card-header h3 {
     margin: 0;
-    font-size: 1.25rem;
+    font-weight: 600;
     letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
   
-  /* Cuerpo de la tarjeta */
-  .card-body {
-    background: #f8f9fa;
+  /* Mensaje de estado vacío */
+  .text-center.text-muted {
+    opacity: 0.7;
+    transition: opacity 0.3s;
   }
   
-  /* Mejoras en items de tarea */
-  .task-item {
+  .text-center.text-muted:hover {
+    opacity: 1;
+  }
+  
+  .text-center.text-muted i {
+    animation: pulse 2s infinite;
+  }
+  
+  /* Efectos en items de tarea */
+  app-task-item {
+    display: block;
+    margin-bottom: 0.75rem;
     transition: all 0.3s;
-    border-radius: 8px;
   }
   
-  .task-item:hover {
-    transform: translateX(5px);
-  }
-  
-  .task-item.completed {
-    background: rgba(0, 123, 255, 0.05);
-    opacity: 0.9;
-  }
-  
-  .task-item.completed .task-text {
-    text-decoration: line-through;
-    color: #6c757d;
+  app-task-item:last-child {
+    margin-bottom: 0;
   }
   
   /* Formulario de edición */
-  .task-edit {
-    background: #fff3e0;
-    border: 1px solid #ffcc80;
+  app-task-edit {
+    background: #f8f9fa;
     border-radius: 8px;
+    padding: 1.25rem;
+    border: 1px dashed #ddd;
+    transition: all 0.3s;
   }
   
-  .task-edit textarea {
-    resize: vertical;
-    min-height: 80px;
+  app-task-edit:hover {
+    border-color: #1a73e8;
   }
   
-  /* Botones de acción */
-  .btn-save {
-    background: #28a745;
-    border: none;
-    padding: 0.5rem 1.5rem;
-    transition: background 0.3s;
-  }
-  
-  .btn-save:hover {
-    background: #218838;
-  }
-  
-  .btn-cancel {
-    color: #dc3545;
-    transition: color 0.3s;
-  }
-  
-  .btn-cancel:hover {
-    color: #c82333;
+  /* Animaciones */
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
   }
   
   /* Responsive */
   @media (max-width: 768px) {
     .card-header h3 {
-      font-size: 1.1rem;
+      font-size: 1.25rem;
     }
     
-    .task-item {
-      padding: 0.75rem;
+    .text-center.text-muted {
+      font-size: 0.9rem;
     }
   }

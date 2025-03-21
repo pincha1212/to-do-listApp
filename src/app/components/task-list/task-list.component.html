@@ -7,7 +7,14 @@
           </div>
           
           <div class="card-body">
-            <!-- Iterar sobre las tareas usando el componente hijo -->
+            <!-- Mensaje cuando no hay tareas -->
+            <div *ngIf="tasks.length === 0" class="text-center text-muted py-4">
+              <i class="bi bi-inbox fs-1"></i>
+              <p class="mt-2 mb-0">No hay tareas pendientes</p>
+              <small>Crea una nueva tarea usando el botón superior</small>
+            </div>
+
+            <!-- Lista de tareas -->
             <app-task-item 
               *ngFor="let task of tasks; trackBy: trackById"
               [task]="task"
@@ -16,7 +23,7 @@
               (deleteTask)="deleteTask(task._id)"
               (taskToggled)="toggleTaskStatus($event)"
             ></app-task-item>
-  
+
             <!-- Formulario de edición -->
             <app-task-edit 
               *ngIf="selectedTask"
@@ -29,4 +36,4 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
