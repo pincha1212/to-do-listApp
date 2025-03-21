@@ -4,10 +4,12 @@ import { TaskFormComponent } from './components/task-form/task-form.component';
 import { TaskListComponent } from './components/task-list/task-list.component';
 import { TaskService } from './services/task.service';
 import { Task } from './models/task.model';
+import { HeaderComponent } from "./components/header/header.component";
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, TaskListComponent, TaskFormComponent],
+  imports: [CommonModule, HeaderComponent, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

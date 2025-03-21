@@ -1,0 +1,20 @@
+<div class="tabs-container">
+    <nav class="nav nav-pills">
+        <!-- Pestaña "Lista" -->
+        <a class="nav-link" routerLink="list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <!-- Exact match -->
+            📋 Lista de Tareas
+        </a>
+
+        <!-- Pestaña "Nueva Tarea" -->
+        <a class="nav-link" routerLink="new" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <!-- Exact match -->
+            ✏️ Nueva Tarea
+        </a>
+    </nav>
+
+    <!-- Contenedor del contenido -->
+    <div class="tab-content mt-4">
+        <router-outlet></router-outlet>
+    </div>
+</div>

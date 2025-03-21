@@ -7,7 +7,7 @@ import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-task-list',
-  imports: [CommonModule, TaskEditComponent],
+  imports: [CommonModule, TaskEditComponent, ],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.css',
 })

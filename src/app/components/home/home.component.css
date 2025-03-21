@@ -1,0 +1,17 @@
+.tabs-container {
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .nav-tabs .nav-link {
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    border: none;
+  }
+  
+  .nav-pills .nav-link.active {
+    background-color: #0d6efd !important;
+    color: white !important;
+    border-radius: 8px;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+  }

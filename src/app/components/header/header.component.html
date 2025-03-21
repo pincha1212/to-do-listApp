@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" routerLink="/">TaskMaster</a>
+      
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav me-auto">
+          <!-- Inicio - Resaltado dinámico -->
+          <li class="nav-item">
+            <a class="nav-link" 
+               routerLink="/" 
+               [class.active]="activeTab === '' || activeTab === 'home'">
+              🏠 Inicio
+            </a>
+          </li>
+          
+          <!-- Tareas Completadas -->
+          <li class="nav-item">
+            <a class="nav-link" 
+               routerLink="/completed" 
+               [class.active]="activeTab === 'completed'">
+              ✅ Completadas
+            </a>
+          </li>
+          
+          <!-- Estadísticas -->
+          <li class="nav-item">
+            <a class="nav-link" 
+               routerLink="/stats" 
+               [class.active]="activeTab === 'stats'">
+              📊 Estadísticas
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>

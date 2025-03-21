@@ -1,9 +1,8 @@
-<div class="container">
-  <h1>Lista de Tareas</h1>
-  
-  <!-- Formulario para agregar tareas -->
-  <app-task-form (taskCreated)="onTaskCreated($event)"></app-task-form>
-  
-  <!-- Lista de tareas -->
-  <app-task-list></app-task-list>
-</div>
+<app-header></app-header>
+
+<main class="main-content">
+  <div class="container mt-5 pt-4">
+    <!-- Aquí se cargarán los componentes según la ruta -->
+    <router-outlet></router-outlet>
+  </div>
+</main>
