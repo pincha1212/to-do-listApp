@@ -1,0 +1,78 @@
+/* task-item.component.css */
+/* Efecto hover en la tarjeta */
+.card {
+    transition: all 0.3s ease;
+    border: none;
+    border-radius: 10px;
+  }
+  
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  }
+  
+  /* Estilo para tareas completadas */
+  .completed-task {
+    background: #f8f9fa !important;
+    opacity: 0.9;
+  }
+  
+  .completed-task .card-title {
+    text-decoration: line-through;
+    color: #6c757d;
+  }
+  
+  .completed-task .card-text {
+    color: #adb5bd;
+  }
+  
+  /* Personalización del toggle switch */
+  .form-check-input {
+    --bs-form-check-bg: #fff;
+    --bs-form-check-border-color: #ced4da;
+    --bs-form-check-border-radius: 0.375rem;
+    --bs-form-check-checked-bg: #2575fc;
+    --bs-form-check-checked-border-color: #2575fc;
+    cursor: pointer;
+  }
+  
+  /* Ajustes en badges de prioridad */
+  .badge {
+    font-weight: 500;
+    padding: 0.4rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+  }
+  
+  /* Colores personalizados para prioridades (opcional) */
+  .badge-low { background-color: #198754; }
+  .badge-medium { background-color: #fd7e14; }
+  .badge-high { background-color: #dc3545; }
+  
+  /* Botones de acción */
+  .btn-sm {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+  }
+  
+  .btn-warning {
+    background: #ffc107;
+    border-color: #ffc107;
+  }
+  
+  .btn-warning:hover {
+    background: #e0a800;
+    border-color: #d39e00;
+  }
+  
+  /* Responsive */
+  @media (max-width: 576px) {
+    .card-body {
+      padding: 1rem;
+    }
+    
+    .card-title {
+      font-size: 1.1rem;
+    }
+  }

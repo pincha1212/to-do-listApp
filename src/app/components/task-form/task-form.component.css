@@ -1,30 +1,98 @@
-.task-form {
-    background: #f8f9fa;
-    padding: 20px;
+/* Mejoras en el header */
+.card-header {
+    background: linear-gradient(135deg, #198754, #22c55e) !important;
+    border-radius: 10px 10px 0 0;
+    padding: 1.5rem;
+  }
+  
+  .card-header h4 {
+    margin: 0;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  
+  /* Mejoras en el formulario */
+  .form-control {
+    border-radius: 6px;
+    padding: 0.75rem;
+    transition: all 0.3s;
+  }
+  
+  .form-control:focus {
+    border-color: #198754;
+    box-shadow: 0 0 0 2px rgba(25, 135, 84, 0.25);
+  }
+  
+  /* Estilos para selectores */
+  .form-select {
+    border-radius: 6px;
+    padding: 0.75rem;
+    background: white;
+    border: 1px solid #ced4da;
+  }
+  
+  .form-select:focus {
+    border-color: #198754;
+    box-shadow: 0 0 0 2px rgba(25, 135, 84, 0.25);
+  }
+  
+  /* Mensajes de error */
+  .text-danger {
+    font-size: 0.875rem;
+    animation: shake 0.3s ease-in-out;
+  }
+  
+  .alert-danger {
     border-radius: 8px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  
-  input, textarea, select {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  
-  button[type="submit"] {
-    background: #007bff;
-    color: white;
+    padding: 1rem;
     border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s;
+    background: #f8d7da;
+    color: #721c24;
   }
   
-  button[type="submit"]:hover {
-    background: #0056b3;
+  /* Botón personalizado */
+  .btn-primary {
+    background: #198754;
+    border: none;
+    padding: 0.75rem;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.3s;
+  }
+  
+  .btn-primary:hover:not(:disabled) {
+    background: #157347;
+    transform: translateY(-1px);
+  }
+  
+  .btn-primary:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  /* Spinner personalizado */
+  .spinner-border {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-right: 0.5rem;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .card-body {
+      padding: 1rem;
+    }
+    
+    .form-control, .form-select {
+      font-size: 0.9rem;
+    }
+  }
+  
+  /* Animaciones */
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    50% { transform: translateX(3px); }
+    75% { transform: translateX(-3px); }
+    100% { transform: translateX(0); }
   }

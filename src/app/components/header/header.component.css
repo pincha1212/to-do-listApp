@@ -1,22 +1,103 @@
-header {
-    z-index: 1000;
-    padding: 0.5rem 0;
+.main-nav {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    color: white;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    font-family: Arial, sans-serif;
   }
   
-  .navbar-brand {
-    font-weight: 600;
+  .nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .nav-logo {
     font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
   
-  .nav-link {
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
+  .logo-icon {
+    font-size: 1.2em;
   }
   
-  .nav-link:hover {
-    transform: translateY(-2px);
+  .pro-badge {
+    background: #e74c3c;
+    font-size: 0.6rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 5px;
   }
   
-  .active {
-    border-bottom: 2px solid white;
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  .nav-item {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .nav-item:hover {
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-1px);
+  }
+  
+  .nav-item.active {
+    background: #e74c3c;
+    box-shadow: 0 2px 6px rgba(231, 76, 60, 0.4);
+  }
+  
+  .mobile-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+  }
+  
+  .bar {
+    width: 24px;
+    height: 2px;
+    background: white;
+    transition: 0.3s;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .nav-links {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      background: #2c3e50;
+      flex-direction: column;
+      padding: 1rem;
+      transform: translateX(-100%);
+      transition: 0.3s;
+    }
+    
+    .nav-links.active {
+      transform: translateX(0);
+    }
+    
+    .mobile-toggle {
+      display: flex;
+    }
   }

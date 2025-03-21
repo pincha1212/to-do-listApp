@@ -1,18 +1,24 @@
-<div class="tabs-container">
-    <nav class="nav nav-pills">
-        <!-- Pestaña "Lista" -->
-        <a class="nav-link" routerLink="list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-            📋 Lista de Tareas
+<div class="tabs-container position-relative">
+    <nav class="nav nav-pills mb-3">
+        <a class="nav-link position-relative" routerLink="list" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }">
+
+            <i class="bi bi-list-task me-2"></i>
+            Lista de Tareas
+
+            <span class="position-absolute top-0 start-100 translate-middle 
+                    badge rounded-pill bg-danger" *ngIf="pendingTasks > 0">
+                {{ pendingTasks }}
+            </span>
         </a>
 
-        <!-- Pestaña "Nueva Tarea" -->
         <a class="nav-link" routerLink="new" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-            ✏️ Nueva Tarea
+            <i class="bi bi-plus-circle me-2"></i>
+            Nueva Tarea
         </a>
     </nav>
 
-    <!-- Contenedor del contenido -->
-    <div class="tab-content mt-4">
+    <div class="tab-content">
         <router-outlet></router-outlet>
     </div>
 </div>

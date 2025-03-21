@@ -1,13 +1,91 @@
-.task-item {
-    border: 1px solid #eee;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 8px;
+/* Mejoras en la tarjeta */
+.card.border-warning {
+    border-width: 2px !important;
+    border-color: #ffc107 !important;
   }
   
-  .task-edit-form {
-    background: #f5f5f5;
-    padding: 15px;
-    margin-top: 10px;
-    border-radius: 8px;
+  .card-header.bg-warning {
+    background: linear-gradient(135deg, #ffc107, #ffca2c) !important;
+    border-radius: 10px 10px 0 0;
+    padding: 1.25rem;
+  }
+  
+  .card-header h5 {
+    margin: 0;
+    font-weight: 600;
+    color: #343a40;
+  }
+  
+  /* Mejoras en inputs */
+  .form-control {
+    border-radius: 6px;
+    padding: 0.875rem;
+    transition: all 0.3s;
+  }
+  
+  .form-control:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.25);
+  }
+  
+  /* Select personalizado */
+  .form-select {
+    border-radius: 6px;
+    padding: 0.875rem;
+    background: white;
+    transition: all 0.3s;
+  }
+  
+  .form-select:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.25);
+  }
+  
+  /* Botones */
+  .btn-outline-secondary {
+    border-color: #ffc107;
+    color: #ffc107;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s;
+  }
+  
+  .btn-outline-secondary:hover {
+    background: #ffc107;
+    color: white;
+  }
+  
+  .btn-success {
+    background: #28a745;
+    border: none;
+    padding: 0.65rem;
+    font-weight: 500;
+    transition: all 0.3s;
+  }
+  
+  .btn-success:hover {
+    background: #218838;
+    transform: translateY(-1px);
+  }
+  
+  /* Responsive */
+  @media (max-width: 576px) {
+    .card-body {
+      padding: 1rem;
+    }
+    
+    .form-control, .form-select {
+      font-size: 0.9rem;
+    }
+    
+    .btn {
+      font-size: 0.9rem;
+      padding: 0.5rem;
+    }
+  }
+  
+  /* Estados de carga (si aplica) */
+  .spinner-border {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-right: 0.5rem;
   }

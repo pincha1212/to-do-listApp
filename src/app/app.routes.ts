@@ -9,6 +9,7 @@ export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+    data: { headerTab: 'home' },
     children: [
       {
         path: '',
