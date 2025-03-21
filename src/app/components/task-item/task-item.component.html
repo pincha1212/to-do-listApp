@@ -1,0 +1,33 @@
+<div class="card mb-3" [ngClass]="{'completed-task': task.completed}">
+    <div class="card-body">
+        <h5 class="card-title">{{ task.title }}</h5>
+        <p class="card-text">{{ task.description || 'Sin descripción' }}</p>
+
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <span class="badge bg-info me-2">{{ task.priority | titlecase }}</span>
+                <small class="text-muted" *ngIf="task.dueDate">
+                    Vence: {{ task.dueDate | date: 'dd/MM/yyyy' }}
+                </small>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+                <!-- Toggle de estado -->
+                <div class="form-check form-switch">
+                    <input type="checkbox" class="form-check-input" [checked]="task.completed"
+                        (change)="taskToggled.emit(task._id)">
+                </div>
+
+                <!-- Botones de acción -->
+                <div *ngIf="showActions" class="d-flex align-items-center gap-2">
+                    <button class="btn btn-sm btn-warning me-2" (click)="editTask.emit(task)">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" (click)="deleteTask.emit(task._id)">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,1 +1,57 @@
-<p>completed-tasks works!</p>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+
+            <!-- Tareas Completadas -->
+            <div class="card shadow mb-4 border-success">
+                <div class="card-header bg-success text-white">
+                    <h4><i class="bi bi-check-circle me-2"></i>Tareas Completadas</h4>
+                </div>
+                <div class="card-body">
+                    <div *ngFor="let task of completedTasks" class="task-card completed">
+                        <app-task-item 
+                            [task]="task" 
+                            [showActions]="false"
+                            (taskToggled)="toggleTaskStatus($event)">
+                        </app-task-item>
+                    </div>
+                    <div *ngIf="completedTasks.length === 0" class="text-center text-muted py-3">
+                        No hay tareas completadas
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tareas Pendientes con Edición -->
+            <div class="card shadow mt-4 border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h4><i class="bi bi-x-circle me-2"></i>Tareas Pendientes</h4>
+                </div>
+                <div class="card-body">
+                    <div *ngFor="let task of pendingTasks" class="task-card pending">
+                        <app-task-item 
+                            [task]="task" 
+                            [showActions]="true"
+                            (taskToggled)="toggleTaskStatus($event)"
+                            (deleteTask)="deleteTask($event)"
+                            (editTask)="selectedTask = task">
+                        </app-task-item>
+                    </div>
+                    
+                    <!-- Componente de Edición -->
+                    <app-task-edit 
+                        *ngIf="selectedTask"
+                        [task]="selectedTask"
+                        (taskUpdated)="onTaskUpdated($event)"
+                        (cancelEdit)="selectedTask = null"
+                        class="mt-3">
+                    </app-task-edit>
+
+                    <div *ngIf="pendingTasks.length === 0" class="text-center text-muted py-3">
+                        ¡Todas las tareas están completadas!
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

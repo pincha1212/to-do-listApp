@@ -1,5 +1,3 @@
-
-
 <div class="container mt-4">
     <div class="row">
       <div class="col-md-8 mx-auto">
@@ -9,40 +7,24 @@
           </div>
           
           <div class="card-body">
-            <div *ngFor="let task of tasks" class="mb-3">
-              <div class="card" *ngIf="selectedTask?._id !== task._id">
-                <div class="card-body">
-                  <h5 class="card-title">{{ task.title }}</h5>
-                  <p class="card-text">{{ task.description || 'Sin descripción' }}</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                      <span class="badge bg-info me-2">{{ task.priority | titlecase }}</span>
-                      <small class="text-muted" *ngIf="task.dueDate">
-                        Vence: {{ task.dueDate | date: 'dd/MM/yyyy' }}
-                      </small>
-                    </div>
-                    <div>
-                      <button class="btn btn-sm btn-warning me-2" (click)="editTask(task)">
-                        <i class="bi bi-pencil"></i>
-                      </button>
-                      <button class="btn btn-sm btn-danger" (click)="deleteTask(task._id)">
-                        <i class="bi bi-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <!-- Iterar sobre las tareas usando el componente hijo -->
+            <app-task-item 
+              *ngFor="let task of tasks; trackBy: trackById"
+              [task]="task"
+              [showActions]="true"
+              (editTask)="editTask(task)"
+              (deleteTask)="deleteTask(task._id)"
+              (taskToggled)="toggleTaskStatus($event)"
+            ></app-task-item>
   
-              <!-- Formulario de edición -->
-              <app-task-edit 
-                *ngIf="selectedTask?._id === task._id"
-                [task]="task" 
-                (taskUpdated)="onTaskUpdated($event)"
-                (cancelEdit)="onCancelEdit()"
-                class="mt-2"
-                
-              ></app-task-edit>
-            </div>
+            <!-- Formulario de edición -->
+            <app-task-edit 
+              *ngIf="selectedTask"
+              [task]="selectedTask" 
+              (taskUpdated)="onTaskUpdated($event)"
+              (cancelEdit)="onCancelEdit()"
+              class="mt-2"
+            ></app-task-edit>
           </div>
         </div>
       </div>
