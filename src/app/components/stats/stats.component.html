@@ -1,1 +1,102 @@
-<p>stats works!</p>
+<div class="stats-container container mt-4">
+    <div class="row">
+
+        <!-- Tarjeta Resumen -->
+        <div class="col-md-3 mb-4" *ngIf="stats.totalTasks > 0">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Resumen General</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            Total tareas: <strong>{{ stats.totalTasks }}</strong>
+                        </li>
+                        <li class="list-group-item">
+                            Completadas: <strong>{{ stats.completedTasks }}</strong>
+                        </li>
+                        <li class="list-group-item">
+                            Tasa de éxito: <strong>{{ stats.completionRate }}%</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mensaje sin tareas -->
+        <div class="col-12" *ngIf="stats.totalTasks === 0">
+            <div class="alert alert-info text-center">
+                <i class="bi bi-database-exclamation me-2"></i>
+                No se encontraron tareas registradas
+            </div>
+        </div>
+
+        <!-- Sección Gráficos -->
+        <div class="col-md-9" *ngIf="stats.totalTasks > 0">
+            <div class="row">
+
+                <!-- Gráfico Prioridades -->
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Distribución de Prioridades</h5>
+                        </div>
+                        <div class="card-body position-relative">
+                            <canvas baseChart [data]="priorityChartData" [type]="'doughnut'" [options]="chartOptions"
+                                *ngIf="hasPriorityData()">
+                            </canvas>
+
+                            <div *ngIf="!hasPriorityData()" class="text-center text-muted py-4">
+                                <i class="bi bi-pie-chart me-2"></i>
+                                No hay datos de prioridades
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráfico Categorías -->
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow h-100">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0">Distribución por Categorías</h5>
+                        </div>
+                        <div class="card-body position-relative">
+                            <canvas baseChart [data]="categoryChartData" [type]="'pie'" [options]="chartOptions"
+                                *ngIf="hasCategories()">
+                            </canvas>
+
+                            <div *ngIf="!hasCategories()" class="text-center text-muted py-4">
+                                <i class="bi bi-tag me-2"></i>
+                                No hay categorías registradas
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Tiempo Promedio -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">Eficiencia</h5>
+                </div>
+                <div class="card-body">
+                    <p class="lead text-center mb-0">
+                        Tiempo promedio de completado:
+                        <strong>{{ stats.avgCompletionTime }}</strong> días
+                    </p>
+
+                    <div *ngIf="stats.avgCompletionTime === 0" class="alert alert-warning text-center mb-0">
+                        <i class="bi bi-clock-history me-2"></i>
+                        No hay suficientes datos para calcular el tiempo promedio
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
