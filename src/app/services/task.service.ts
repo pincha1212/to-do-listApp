@@ -18,15 +18,29 @@ import { startWith, switchMap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class TaskService {
+  private cachedTasks: Task[] = [];
+
   private apiUrl = 'http://localhost:4000/api/tasks';
   private tasksSubject = new BehaviorSubject<Task[]>([]);
   tasks$ = this.tasksSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+  ) {}
 
+  // Modificar getTasks para usar caché
   getTasks(): Observable<Task[]> {
+    if (this.cachedTasks.length > 0) {
+      return of(this.cachedTasks).pipe(
+        switchMap((cached) =>
+          this.http.get<Task[]>(this.apiUrl).pipe(catchError(() => of(cached)))
+        )
+      );
+    }
     return this.http.get<Task[]>(this.apiUrl).pipe(
-      tap((tasks) => this.tasksSubject.next(tasks)) // Actualizar el BehaviorSubject
+      tap((tasks) => {
+        this.cachedTasks = tasks;
+        this.tasksSubject.next(tasks);
+      })
     );
   }
 
@@ -63,58 +77,56 @@ export class TaskService {
     this.tasksSubject.next(tasks);
   }
 
-  toggleTaskStatus(id: string): Observable<Task> {
-    const currentTasks = this.tasksSubject.value;
-    const taskIndex = currentTasks.findIndex((t) => t._id === id);
+  // Modificar toggleTaskStatus
+toggleTaskStatus(id: string): Observable<Task> {
+  const currentTasks = this.tasksSubject.value;
+  const taskIndex = currentTasks.findIndex(t => t._id === id);
+  
+  if (taskIndex === -1) return throwError(() => 'Tarea no encontrada');
 
-    // Actualización optimista
-    const optimisticTasks = [...currentTasks];
-    const optimisticTask = {
-      ...optimisticTasks[taskIndex],
-      completed: !optimisticTasks[taskIndex].completed,
-    };
-    optimisticTasks[taskIndex] = optimisticTask;
-    this.tasksSubject.next(optimisticTasks);
+  // Actualización optimista INMEDIATA
+  const updatedTask = { 
+    ...currentTasks[taskIndex], 
+    completed: !currentTasks[taskIndex].completed 
+  };
+  
+  const newTasks = [...currentTasks];
+  newTasks[taskIndex] = updatedTask;
+  this.tasksSubject.next(newTasks); // Emitir nueva lista
 
-    // Llamada al backend
-    return this.http
-      .patch<Task>(`${this.apiUrl}/${id}`, {
-        completed: optimisticTask.completed,
-      })
-      .pipe(
-        tap((updatedTask) => {
-          this.getTasks().subscribe(); // Actualización forzada
-        }),
-        catchError((err) => {
-          optimisticTasks[taskIndex] = currentTasks[taskIndex];
-          this.tasksSubject.next(optimisticTasks);
-          return throwError(() => err);
-        })
-      );
-  }
-// Modificar el método getStats
-getStats(): Observable<TaskStats> {
-  return this.http.get<Task[]>(this.apiUrl).pipe( // 1. Obtener datos frescos
-    tap(tasks => this.tasksSubject.next(tasks)),  // 2. Actualizar el BehaviorSubject
-    switchMap(tasks => this.calculateStats(tasks)) // 3. Calcular estadísticas
+  return this.http.patch<Task>(`${this.apiUrl}/${id}`, { 
+    completed: updatedTask.completed 
+  }).pipe(
+    catchError(err => {
+      this.tasksSubject.next(currentTasks); // Revertir en error
+      return throwError(() => err);
+    })
   );
 }
+  // Modificar el método getStats
+  getStats(): Observable<TaskStats> {
+    return this.http.get<Task[]>(this.apiUrl).pipe(
+      // 1. Obtener datos frescos
+      tap((tasks) => this.tasksSubject.next(tasks)), // 2. Actualizar el BehaviorSubject
+      switchMap((tasks) => this.calculateStats(tasks)) // 3. Calcular estadísticas
+    );
+  }
 
-private calculateStats(tasks: Task[]): Observable<TaskStats> {
-  return of({
-    totalTasks: tasks.length,
-    completedTasks: tasks.filter(t => t.completed).length,
-    pendingTasks: tasks.filter(t => !t.completed).length,
-    priorityDistribution: {
-      low: tasks.filter(t => t.priority === 'low').length,
-      medium: tasks.filter(t => t.priority === 'medium').length,
-      high: tasks.filter(t => t.priority === 'high').length
-    },
-    categoryDistribution: this.getCategoryDistribution(tasks),
-    completionRate: this.calculateCompletionRate(tasks),
-    avgCompletionTime: this.calculateAvgCompletionTime(tasks)
-  });
-}
+  private calculateStats(tasks: Task[]): Observable<TaskStats> {
+    return of({
+      totalTasks: tasks.length,
+      completedTasks: tasks.filter((t) => t.completed).length,
+      pendingTasks: tasks.filter((t) => !t.completed).length,
+      priorityDistribution: {
+        low: tasks.filter((t) => t.priority === 'low').length,
+        medium: tasks.filter((t) => t.priority === 'medium').length,
+        high: tasks.filter((t) => t.priority === 'high').length,
+      },
+      categoryDistribution: this.getCategoryDistribution(tasks),
+      completionRate: this.calculateCompletionRate(tasks),
+      avgCompletionTime: this.calculateAvgCompletionTime(tasks),
+    });
+  }
 
   private getCategoryDistribution(tasks: Task[]): Record<string, number> {
     return tasks.reduce((acc, task) => {

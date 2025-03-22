@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { Task } from '../../models/task.model';
 import { TaskEditComponent } from '../task-edit/task-edit.component';
-import { Subject, takeUntil, tap } from 'rxjs';
+import { map, Subject, takeUntil, tap } from 'rxjs';
 import { TaskItemComponent } from '../task-item/task-item.component';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-task-list',
@@ -19,31 +20,35 @@ export class TaskListComponent implements OnInit {
 
   selectedTask: Task | null = null; // Tarea seleccionada para editar
 
-  constructor(private taskService: TaskService) {
+  constructor(
+    private taskService: TaskService,
+    private cdr: ChangeDetectorRef
+  ) {
     this.loadTasks();
   }
   ngOnInit(): void {
-    this.taskService.getTasks().subscribe(); // Paso 4
+    this.loadTasks(); // Cargar datos iniciales
 
+    // Suscripción reactiva con filtro estricto
     this.taskService.tasks$
       .pipe(
         takeUntil(this.destroy$),
-        // Filtro adicional para debuggear
-        tap((tasks) => console.log('Tareas actualizadas en TaskList:', tasks))
+        distinctUntilChanged(
+          (prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)
+        )
       )
       .subscribe((tasks) => {
-        this.tasks = tasks.filter((t) => !t.completed);
+        this.tasks = tasks.filter((t) => !t.completed); // Filtro aquí
+        this.cdr.detectChanges(); // Forzar actualización de la vista
       });
   }
+
   // Método para cargar las tareas
-  loadTasks(): void {
+  private loadTasks(): void {
     this.taskService.getTasks().subscribe({
-      next: (tasks) => {
-        this.tasks = tasks;
-      },
-      error: (err) => {
-        console.error('Error al cargar tareas:', err);
-      },
+      // Recargar desde el servidor
+      next: () => {}, // El BehaviorSubject ya maneja la actualización
+      error: (err) => console.error('Error:', err),
     });
   }
 
