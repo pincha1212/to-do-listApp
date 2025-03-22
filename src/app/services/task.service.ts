@@ -20,7 +20,7 @@ export class TaskService {
   private cachedTasks: Task[] = [];
 
   private apiUrl =
-    'https://todolist-backend-d4bzqpwr2-pincha1212s-projects.vercel.app/api/tasks';
+    'https://todolist-backend-w0diz5uqk-pincha1212s-projects.vercel.app/api/tasks';
   private tasksSubject = new BehaviorSubject<Task[]>([]);
   tasks$ = this.tasksSubject.asObservable();
 
