@@ -13,19 +13,18 @@ import { Task } from '../models/task.model';
 import { TaskStats } from '../models/stats.model';
 import { startWith, switchMap } from 'rxjs/operators';
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
   private cachedTasks: Task[] = [];
 
-  private apiUrl = 'http://localhost:4000/api/tasks';
+  private apiUrl =
+    'https://todolist-backend-d4bzqpwr2-pincha1212s-projects.vercel.app/api/tasks';
   private tasksSubject = new BehaviorSubject<Task[]>([]);
   tasks$ = this.tasksSubject.asObservable();
 
-  constructor(private http: HttpClient,
-  ) {}
+  constructor(private http: HttpClient) {}
 
   // Modificar getTasks para usar caché
   getTasks(): Observable<Task[]> {
@@ -78,31 +77,33 @@ export class TaskService {
   }
 
   // Modificar toggleTaskStatus
-toggleTaskStatus(id: string): Observable<Task> {
-  const currentTasks = this.tasksSubject.value;
-  const taskIndex = currentTasks.findIndex(t => t._id === id);
-  
-  if (taskIndex === -1) return throwError(() => 'Tarea no encontrada');
+  toggleTaskStatus(id: string): Observable<Task> {
+    const currentTasks = this.tasksSubject.value;
+    const taskIndex = currentTasks.findIndex((t) => t._id === id);
 
-  // Actualización optimista INMEDIATA
-  const updatedTask = { 
-    ...currentTasks[taskIndex], 
-    completed: !currentTasks[taskIndex].completed 
-  };
-  
-  const newTasks = [...currentTasks];
-  newTasks[taskIndex] = updatedTask;
-  this.tasksSubject.next(newTasks); // Emitir nueva lista
+    if (taskIndex === -1) return throwError(() => 'Tarea no encontrada');
 
-  return this.http.patch<Task>(`${this.apiUrl}/${id}`, { 
-    completed: updatedTask.completed 
-  }).pipe(
-    catchError(err => {
-      this.tasksSubject.next(currentTasks); // Revertir en error
-      return throwError(() => err);
-    })
-  );
-}
+    // Actualización optimista INMEDIATA
+    const updatedTask = {
+      ...currentTasks[taskIndex],
+      completed: !currentTasks[taskIndex].completed,
+    };
+
+    const newTasks = [...currentTasks];
+    newTasks[taskIndex] = updatedTask;
+    this.tasksSubject.next(newTasks); // Emitir nueva lista
+
+    return this.http
+      .patch<Task>(`${this.apiUrl}/${id}`, {
+        completed: updatedTask.completed,
+      })
+      .pipe(
+        catchError((err) => {
+          this.tasksSubject.next(currentTasks); // Revertir en error
+          return throwError(() => err);
+        })
+      );
+  }
   // Modificar el método getStats
   getStats(): Observable<TaskStats> {
     return this.http.get<Task[]>(this.apiUrl).pipe(
