@@ -5,6 +5,7 @@ export interface Task {
   dueDate: Date | null;
   completed: boolean;
   priority: 'low' | 'medium' | 'high';
-  category: string;
+  category: 'trabajo' | 'personal' | 'estudio' | 'hogar' | 'general';
   createdAt: Date;
+  
 }

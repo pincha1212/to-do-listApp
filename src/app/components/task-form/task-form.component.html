@@ -1,81 +1,78 @@
 <div class="container mt-4">
     <div class="row">
-      <div class="col-md-8 mx-auto">
-        <div class="card shadow">
-          <div class="card-header bg-success text-white">
-            <h4 class="mb-0">Agregar Nueva Tarea</h4>
-          </div>
-          
-          <div class="card-body">
-            <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
-              <!-- Título -->
-              <div class="mb-3">
-                <label class="form-label">Título</label>
-                <input 
-                  type="text" 
-                  formControlName="title"
-                  class="form-control"
-                  placeholder="Ej: Comprar leche"
-                >
-                <div *ngIf="taskForm.get('title')?.invalid && (taskForm.get('title')?.dirty || taskForm.get('title')?.touched)"
-                     class="text-danger mt-1">
-                  El título es obligatorio.
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Agregar Nueva Tarea</h4>
                 </div>
-              </div>
-  
-              <!-- Descripción -->
-              <div class="mb-3">
-                <label class="form-label">Descripción</label>
-                <textarea 
-                  formControlName="description"
-                  class="form-control"
-                  rows="3"
-                  placeholder="Ej: Describa los detalles de la tarea"
-                ></textarea>
-              </div>
-  
-              <!-- Prioridad y Fecha -->
-              <div class="row mb-3">
-                <div class="col-md-6">
-                  <label class="form-label">Prioridad</label>
-                  <select formControlName="priority" class="form-select">
-                    <option value="low">Baja</option>
-                    <option value="medium">Media</option>
-                    <option value="high">Alta</option>
-                  </select>
+
+                <div class="card-body">
+                    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+                        <!-- Título -->
+                        <div class="mb-3">
+                            <label class="form-label">Título</label>
+                            <input type="text" formControlName="title" class="form-control"
+                                placeholder="Ej: Comprar leche">
+                            <div *ngIf="taskForm.get('title')?.invalid && (taskForm.get('title')?.dirty || taskForm.get('title')?.touched)"
+                                class="text-danger mt-1">
+                                El título es obligatorio.
+                            </div>
+                        </div>
+
+                        <!-- Descripción -->
+                        <div class="mb-3">
+                            <label class="form-label">Descripción</label>
+                            <textarea formControlName="description" class="form-control" rows="3"
+                                placeholder="Ej: Describa los detalles de la tarea"></textarea>
+                        </div>
+
+                        <!-- Prioridad y Fecha -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Prioridad</label>
+                                <select formControlName="priority" class="form-select">
+                                    <option value="low">Baja</option>
+                                    <option value="medium">Media</option>
+                                    <option value="high">Alta</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Fecha Límite</label>
+                                <input type="date" formControlName="dueDate" class="form-control">
+                            </div>
+                        </div>
+
+                        <!-- categorias -->
+
+                        <div class="mb-3">
+                            <label class="form-label">Categoría</label>
+                            <select formControlName="category" class="form-select">
+                                <option value="trabajo">Trabajo</option>
+                                <option value="personal">Personal</option>
+                                <option value="estudio">Estudio</option>
+                                <option value="hogar">Hogar</option>
+                                <option value="general" selected>General</option>
+                            </select>
+                        </div>
+
+                        <!-- Botón -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary" [disabled]="isLoading || taskForm.invalid">
+                                <span *ngIf="!isLoading">Agregar Tarea</span>
+                                <span *ngIf="isLoading">
+                                    <span class="spinner-border spinner-border-sm" role="status"></span>
+                                    Guardando...
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Mensajes de error -->
+                    <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+                        {{ errorMessage }}
+                    </div>
                 </div>
-                <div class="col-md-6">
-                  <label class="form-label">Fecha Límite</label>
-                  <input 
-                    type="date" 
-                    formControlName="dueDate"
-                    class="form-control"
-                  >
-                </div>
-              </div>
-  
-              <!-- Botón -->
-              <div class="d-grid">
-                <button 
-                  type="submit" 
-                  class="btn btn-primary"
-                  [disabled]="isLoading || taskForm.invalid"
-                >
-                  <span *ngIf="!isLoading">Agregar Tarea</span>
-                  <span *ngIf="isLoading">
-                    <span class="spinner-border spinner-border-sm" role="status"></span>
-                    Guardando...
-                  </span>
-                </button>
-              </div>
-            </form>
-  
-            <!-- Mensajes de error -->
-            <div *ngIf="errorMessage" class="alert alert-danger mt-3">
-              {{ errorMessage }}
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>

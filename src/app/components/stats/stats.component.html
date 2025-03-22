@@ -31,6 +31,12 @@
             </div>
         </div>
 
+        <!-- Indicador de actualización -->
+        <div *ngIf="isUpdating" class="update-indicator">
+            <span class="spinner-border spinner-border-sm"></span>
+            Actualizando datos...
+        </div>
+
         <!-- Sección Gráficos -->
         <div class="col-md-9" *ngIf="stats.totalTasks > 0">
             <div class="row">

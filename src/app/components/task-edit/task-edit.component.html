@@ -28,6 +28,19 @@
                 </select>
             </div>
 
+            <!-- categorias -->
+
+            <div class="mb-3">
+                <label class="form-label">Categoría</label>
+                <select [(ngModel)]="editedTask.category" name="category" class="form-select">
+                    <option value="trabajo">Trabajo</option>
+                    <option value="personal">Personal</option>
+                    <option value="estudio">Estudio</option>
+                    <option value="hogar">Hogar</option>
+                    <option value="general">General</option>
+                </select>
+            </div>
+
             <!-- Fecha de Vencimiento -->
             <div class="mb-3">
                 <label class="form-label">Fecha Límite</label>

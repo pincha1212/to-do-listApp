@@ -15,6 +15,8 @@ import { Chart } from 'chart.js';
 })
 export class StatsComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
+  private readonly CACHE_KEY = 'stats_cache';
+  isUpdating = false; // Nuevo estado para controlar actualizaciones
 
   stats: TaskStats = {
     totalTasks: 0,
@@ -38,27 +40,38 @@ export class StatsComponent implements OnInit, OnDestroy {
   constructor(private taskService: TaskService) {}
 
   ngOnInit(): void {
-    this.taskService
-      .getStats()
-      .pipe(
-        takeUntil(this.destroy$),
-        catchError((error) => {
-          console.error('Error obteniendo estadísticas:', error);
-          return of(this.stats); // Devuelve stats vacío
-        })
-      )
-      .subscribe((stats) => {
-        this.stats = stats;
-        this.initCharts();
-        this.updateCharts();
-      });
+    this.loadInitialData();
   }
 
-  private updateCharts(): void {
-    // Forzar nueva instancia para detección de cambios
-    this.priorityChartData = { ...this.priorityChartData };
-    this.categoryChartData = { ...this.categoryChartData };
+  
+  private loadInitialData(): void {
+    // 1. Mostrar datos cacheados inmediatamente si existen
+    const cachedStats = localStorage.getItem(this.CACHE_KEY);
+    if (cachedStats) {
+      this.stats = JSON.parse(cachedStats);
+      this.initCharts();
+    }
+
+    // 2. Obtener datos actualizados del servicio
+    this.isUpdating = true; // Activar indicador de carga
+    this.taskService.getStats().pipe(
+      takeUntil(this.destroy$),
+      catchError(() => {
+        // 3. Manejar error: mantener datos cacheados si hay error
+        return of(this.stats); 
+      })
+    ).subscribe(stats => {
+      this.stats = stats;
+      this.initCharts();
+      this.isUpdating = false;
+      
+      // 4. Actualizar caché solo si se obtuvieron datos nuevos
+      if (stats.totalTasks > 0) {
+        localStorage.setItem(this.CACHE_KEY, JSON.stringify(stats));
+      }
+    });
   }
+
   // Elimina las líneas que modifican los defaults globales
   private initCharts(): void {
     // Configuración movida a chartOptions

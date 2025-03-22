@@ -5,11 +5,14 @@ import {
   catchError,
   map,
   Observable,
+  of,
   tap,
   throwError,
 } from 'rxjs';
 import { Task } from '../models/task.model';
 import { TaskStats } from '../models/stats.model';
+import { startWith, switchMap } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root',
@@ -89,26 +92,29 @@ export class TaskService {
         })
       );
   }
-  getStats(): Observable<TaskStats> {
-    return this.tasks$.pipe(
-      map((tasks) => {
-        const stats: TaskStats = {
-          totalTasks: tasks.length,
-          completedTasks: tasks.filter((t) => t.completed).length,
-          pendingTasks: tasks.filter((t) => !t.completed).length,
-          priorityDistribution: {
-            low: tasks.filter((t) => t.priority === 'low').length,
-            medium: tasks.filter((t) => t.priority === 'medium').length,
-            high: tasks.filter((t) => t.priority === 'high').length,
-          },
-          categoryDistribution: this.getCategoryDistribution(tasks),
-          completionRate: this.calculateCompletionRate(tasks),
-          avgCompletionTime: this.calculateAvgCompletionTime(tasks),
-        };
-        return stats;
-      })
-    );
-  }
+// Modificar el método getStats
+getStats(): Observable<TaskStats> {
+  return this.http.get<Task[]>(this.apiUrl).pipe( // 1. Obtener datos frescos
+    tap(tasks => this.tasksSubject.next(tasks)),  // 2. Actualizar el BehaviorSubject
+    switchMap(tasks => this.calculateStats(tasks)) // 3. Calcular estadísticas
+  );
+}
+
+private calculateStats(tasks: Task[]): Observable<TaskStats> {
+  return of({
+    totalTasks: tasks.length,
+    completedTasks: tasks.filter(t => t.completed).length,
+    pendingTasks: tasks.filter(t => !t.completed).length,
+    priorityDistribution: {
+      low: tasks.filter(t => t.priority === 'low').length,
+      medium: tasks.filter(t => t.priority === 'medium').length,
+      high: tasks.filter(t => t.priority === 'high').length
+    },
+    categoryDistribution: this.getCategoryDistribution(tasks),
+    completionRate: this.calculateCompletionRate(tasks),
+    avgCompletionTime: this.calculateAvgCompletionTime(tasks)
+  });
+}
 
   private getCategoryDistribution(tasks: Task[]): Record<string, number> {
     return tasks.reduce((acc, task) => {
