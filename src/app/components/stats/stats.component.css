@@ -1,0 +1,209 @@
+/* stats.component.css */
+.stats-container {
+    --primary-gradient: linear-gradient(135deg, #2c3e50, #34495e);
+    --success-gradient: linear-gradient(135deg, #28a745, #2ecc71);
+    --warning-gradient: linear-gradient(135deg, #f39c12, #f1c40f);
+    --info-gradient: linear-gradient(135deg, #1abc9c, #48c9b0);
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Mejoras globales */
+.card {
+    border: none;
+    border-radius: 14px;
+    transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Headers personalizados */
+.card-header {
+    border-radius: 14px 14px 0 0;
+    padding: 1.5rem;
+    font-weight: 600;
+    position: relative;
+}
+
+.card-header.bg-info {
+    background: var(--info-gradient);
+}
+
+.card-header.bg-primary {
+    background: var(--primary-gradient);
+}
+
+.card-header.bg-success {
+    background: var(--success-gradient);
+}
+
+.card-header.bg-warning {
+    background: var(--warning-gradient);
+    color: #333;
+}
+
+/* Efecto de brillo en headers */
+.card-header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.4), transparent);
+}
+
+/* Contenido de tarjetas */
+.card-body {
+    padding: 1.5rem;
+    position: relative;
+}
+
+.list-group-item {
+    background: transparent;
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: space-between;
+}
+
+.list-group-item:not(:last-child) {
+    margin-bottom: 0.5rem;
+}
+
+.list-group-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateX(10px);
+}
+
+.list-group-item strong {
+    font-weight: 600;
+    color: #343a40;
+}
+
+/* Gráficos */
+.chart-container {
+    position: relative;
+    height: 280px;
+}
+
+canvas {
+    max-height: 280px !important;
+}
+
+.no-data {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+/* Indicador de actualización */
+.update-indicator {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    animation: slideIn 0.5s ease;
+}
+
+/* Alertas */
+.alert {
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    padding: 1rem;
+}
+
+.alert-info {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.alert-warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+/* Tiempo promedio */
+.efficiency-card {
+    min-height: 150px;
+}
+
+.efficiency-card .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.efficiency-card p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+/* Animaciones */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .card-header {
+        padding: 1rem;
+    }
+
+    .list-group-item {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .chart-container {
+        height: 220px;
+    }
+
+    .efficiency-card p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .stats-container {
+        margin-top: 1rem !important;
+    }
+
+    .card {
+        border-radius: 12px;
+    }
+}
